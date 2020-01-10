@@ -15,11 +15,8 @@ WIFI_SSID=$(/System/Library/PrivateFrameworks/Apple80211.framework/Resources/air
 
 for slack_status in "${STATUSES[@]}" ; do
   KEY="${slack_status%%;*}"
-  VALUE="${slack_status##*;}"
-  VALUE="${VALUE%%;*}"
   
   if [[ "$WIFI_SSID" == *"$KEY"* ]]; then
-    STATUS="$VALUE"
     IFS=';'
     read -ra UNPACKED <<< "$slack_status"
     STATUS=${UNPACKED[1]}
