@@ -17,7 +17,7 @@ Add this entry to cron to run every 30 minutes. Simple!
 ```
 
 ## Configuration
-To set up ASS, you'll need your slack token and fill out statuses.
+To set up your newly installed ASS, you'll need your slack token and fill out the statuses.
 ```bash
 SLACK_TOKEN=""
 # Default status if no SSID matches
