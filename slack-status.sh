@@ -1,6 +1,8 @@
 #!/bin/bash
 
+# Configs
 SLACK_TOKEN=""
+IF_NAME="wlan0"
 
 # Default status if no SSID matches
 STATUS=""
@@ -11,7 +13,14 @@ STATUSES=("Home Lab;WFH;:house:"
           "iPhone;Working Remotely;:wave:"
           "GreenMan;At the pub;:beer:")
 
-WIFI_SSID=$(/System/Library/PrivateFrameworks/Apple80211.framework/Resources/airport -I | awk -F: '/ SSID/{print $2}')
+
+WIFI_SSID="Unsupported OS."
+
+if [[ "$OSTYPE" == "linux-gnu" ]]; then
+  WIFI_SSID=$(iw dev $IF_NAME link | awk -F: '/ESSID/ {print $NF}')
+elif [[ "$OSTYPE" == "darwin"* ]]; then
+  WIFI_SSID=$(/System/Library/PrivateFrameworks/Apple80211.framework/Resources/airport -I | awk -F: '/ SSID/{print $2}')
+fi
 
 for slack_status in "${STATUSES[@]}" ; do
   KEY="${slack_status%%;*}"
