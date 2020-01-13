@@ -3,6 +3,9 @@
 # Configs
 SLACK_TOKEN=""
 IF_NAME="wlan0"
+CIRCLE_CI_USER=""
+CIRCLE_CI_TOKEN=""
+CIRCLE_CI_PROJECT=""
 
 # Default status if no SSID matches
 STATUS=""
@@ -33,6 +36,10 @@ for slack_status in "${STATUSES[@]}" ; do
     IFS=' '
   fi
 done
+
+if [[ CIRCLE_CI_TOKEN -n ]]; then
+  BUILD_STATUS=$(curl https://circleci.com/api/v1.1/project/git/$CIRCLE_CI_USER/$CIRCLE_CI_PROJECT?circle-token=$CIRCLE_CI_TOKEN&limit=1&filter=completed)
+fi
 
 PAYLOAD=$(cat <<EOF
 {
